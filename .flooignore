@@ -1,24 +1,6 @@
-# FooBarQix
-
-## Divisor rule:
-If the following digit divides `n`,
-return its associated string.
-
-## Content rule:
-For each occurrence of following digit is inside `n`,
-add its associated string to returned result.
-
-## Digits and associated strings:
-
-1. 3 -> "Foo"
-2. 5 -> "Bar"
-3. 7 -> "Qix"
-
-## Description
-For a given number:
-- Apply divisor rule first.  
-- Apply content rule and concatenate its result to previous one.  
-- Otherwise return its string representation.
-
-Each digit rule applies in listed order.  
-Divisor rule applies first.
+extern
+node_modules
+tmp
+vendor
+.idea/workspace.xml
+.idea/misc.xml
