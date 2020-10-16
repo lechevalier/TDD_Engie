@@ -2,11 +2,11 @@
 
 ## Divisor rule:
 If the following digit divides `n`,
-return its associated string.
+add its associated string to the result.
 
 ## Content rule:
-If the following digit is inside `n`,
-return its associated string.
+For each occurrence of following digit inside `n`,
+add its associated string to the result.
 
 ## Digits and associated strings:
 
@@ -16,9 +16,9 @@ return its associated string.
 
 ## Description
 For a given number:
-- Try to apply divisor rule first.  
-- If not applied, try to apply content rule.  
-- Otherwise return its string representation.
+- Apply divisor rule.  
+- Apply content rule.  
+- If result is empty, return its string representation.
 
 Each digit rule applies in listed order.  
 Divisor rule applies first.
