@@ -1,9 +1,19 @@
 class Wrapper:
     @staticmethod
-    def wrap(strng: str, column_number: int) -> str:
-        return strng
+    def wrap(words: str, column_number: int) -> str:
+        if len(words) < column_number:
+            return words
+        outside, space_index = Wrapper.index(words, column_number)
+        if len(words) <= space_index + outside:
+            return words[:space_index]
+        return words[:space_index] + "\n" + Wrapper.wrap(words[space_index + outside:], column_number)
 
-
-class TestWordWrapper:
-    def test_should_return_identical_string_when_column_number_is_larger(self):
-        assert Wrapper.wrap("a", 2) == "a"
+    @staticmethod
+    def index(strng, column_number):
+        outside = 1
+        try:
+            space_index = strng.index(" ")
+        except ValueError:
+            space_index = column_number
+            outside = 0
+        return outside, space_index
