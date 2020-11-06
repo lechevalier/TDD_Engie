@@ -1,19 +1,23 @@
 class Wrapper:
+
     @staticmethod
     def wrap(words: str, column_number: int) -> str:
-        if len(words) < column_number:
-            return words
-        outside, space_index = Wrapper.index(words, column_number)
-        if len(words) <= space_index + outside:
-            return words[:space_index]
-        return words[:space_index] + "\n" + Wrapper.wrap(words[space_index + outside:], column_number)
+        wrapped_words = words[:]
+        result = []
+        while len(wrapped_words) > column_number:
+            offset, space_index = Wrapper.index(wrapped_words, column_number)
+            result.append(wrapped_words[:space_index])
+            wrapped_words = wrapped_words[space_index + offset:]
+
+        result.append(wrapped_words[:])
+        return "\n".join(result)
 
     @staticmethod
     def index(strng, column_number):
-        outside = 1
+        offset = 1
         try:
-            space_index = strng.index(" ")
+            space_index = strng.rindex(" ", 0, column_number+1)
         except ValueError:
             space_index = column_number
-            outside = 0
-        return outside, space_index
+            offset = 0
+        return offset, space_index
