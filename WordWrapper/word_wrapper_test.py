@@ -21,5 +21,15 @@ class TestWordWrapper:
     def test_should_break_at_boundary_twice_when_column_number_is_greater_than_boundary(self):
         assert Wrapper.wrap("ab cd ef", 2) == "ab\ncd\nef"
 
+    def test_should_monge_only_one_space_when_breaking_line_at_end(self):
+        assert Wrapper.wrap("ab  ", 3) == "ab\n "
+
+    def test_should_monge_only_one_space_when_breaking_line_at_beginning(self):
+        assert Wrapper.wrap("  ab", 3) == " \nab"
+
+    def test_should_monge_only_one_space_when_breaking_line_in_middle(self):
+        assert Wrapper.wrap("ab   cd", 3) == "ab \n cd"
+
+    @pytest.mark.skip
     def test_should_break_at_boundary_a_thousand_times_when_column_number_is_greater_than_boundary(self):
         assert Wrapper.wrap("ab " * 1001, 2) == "ab\n" * 1001
