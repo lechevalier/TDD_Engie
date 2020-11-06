@@ -14,10 +14,10 @@ class Wrapper:
 
     @staticmethod
     def index(strng, column_number):
-        offset = 1
         try:
+            offset = 1
             space_index = strng.rindex(" ", 0, column_number+1)
         except ValueError:
-            space_index = column_number
             offset = 0
+            space_index = column_number
         return offset, space_index
