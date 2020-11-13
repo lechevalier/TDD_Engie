@@ -1,3 +1,6 @@
+import pytest
+
+
 class StringCalculator:
     @classmethod
     def add(cls, string_number: str):
@@ -9,12 +12,16 @@ class StringCalculator:
             delimiter = string_number[2]
             string_number = string_number[4:]
 
-        else:
-            string_number = string_number.replace("\n", ",")
+        string_number = string_number.replace("\n", ",")
 
-        numbers = string_number.split(delimiter)
+        str_numbers = string_number.split(delimiter)
+        numbers = list(map(int, str_numbers))
 
-        return sum(map(int, numbers))
+        negatives = [str(number) for number in numbers if number < 0]
+        if negatives:
+            raise ValueError(f"Negatives not allowed: {','.join(negatives)}")
+
+        return sum(numbers)
 
 
 class TestStringCalculator:
@@ -32,3 +39,10 @@ class TestStringCalculator:
 
     def test_should_return_sum_of_number_in_string_separated_by_given_delimiter(self):
         assert StringCalculator.add("//;\n1;2") == 3
+
+    def test_should_raise_an_exception_when_negative_numbers_are_present(self):
+        with pytest.raises(ValueError):
+            StringCalculator.add("-1,2")
+
+    def test_should_ignore_number_bigger_than_1000(self):
+        assert StringCalculator.add("1001,2") == 2
