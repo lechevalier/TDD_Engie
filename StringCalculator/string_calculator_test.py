@@ -13,15 +13,14 @@ class StringCalculator:
             string_number = string_number[4:]
 
         string_number = string_number.replace("\n", ",")
-
         str_numbers = string_number.split(delimiter)
         numbers = list(map(int, str_numbers))
 
-        negatives = [str(number) for number in numbers if number < 0]
+        negatives = [number for number in numbers if number < 0]
         if negatives:
-            raise ValueError(f"Negatives not allowed: {','.join(negatives)}")
+            raise ValueError(f"Negatives not allowed: {','.join(map(str, negatives))}")
 
-        return sum(numbers)
+        return sum(num for num in numbers if num <= 1000)
 
 
 class TestStringCalculator:
