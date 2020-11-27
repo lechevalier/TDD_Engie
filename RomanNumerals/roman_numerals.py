@@ -14,7 +14,7 @@ ROMAN_NUMERALS = {
     4: "IV",
     1: "I",
 }
-NUMERAL_ROMANS = dict(zip(ROMAN_NUMERALS.values(), ROMAN_NUMERALS.keys()))
+NUMERAL_ROMANS = dict(map(reversed, ROMAN_NUMERALS.items()))
 
 
 class RomanNumeral:
