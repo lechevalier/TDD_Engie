@@ -23,4 +23,8 @@ class PhoneNumber:
         return min(candidates, key=lambda name: len(self.phonebook[name]))
 
     def validate_consistency(self) -> bool:
-        return False
+        numbers = self.phonebook.values()
+        for num in numbers:
+            if any(nb.startswith(num) for nb in numbers if nb != num):
+                return False
+        return True
