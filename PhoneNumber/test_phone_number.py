@@ -42,10 +42,16 @@ class TestPhoneNumber:
     def test_validate_phone_book_consistency_returns_false_when_numbers_are_inconsistent(self):
         assert not self.inconsistent_phone_number.validate_consistency()
 
+    def test_get_inconsistent_number_returns_the_first_inconsistent_number_when_phone_book_is_inconsistent(self):
+        assert self.inconsistent_phone_number.get_inconsistent_number() == ("Emergency", "911")
+
     def test_validate_phone_book_consistency_returns_true_when_numbers_are_consistent(self):
         assert self.consistent_phone_number.validate_consistency()
 
     def test_validate_phone_book_10000_consistency_returns_true_when_numbers_are_consistent(self):
         assert not PhoneNumber.from_file("phone_data_10000.txt").validate_consistency()
+
+    def test_validate_phone_book_65535_consistency_returns_true_when_numbers_are_consistent(self):
+        assert not PhoneNumber.from_file("phone_data_65535.txt").validate_consistency()
 
 

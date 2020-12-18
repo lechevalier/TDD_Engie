@@ -1,3 +1,6 @@
+from typing import Tuple
+
+
 class PhoneNumber:
     def __init__(self, phonebook):
         self.phonebook = {name: number.replace(' ', '').replace('-', '') for name, number in phonebook.items()}
@@ -22,9 +25,29 @@ class PhoneNumber:
                 candidates.append(book_name)
         return min(candidates, key=lambda name: len(self.phonebook[name]))
 
+    @staticmethod
+    def validate_sub_consistency(number: str, numbers: list) -> bool:
+        return not any(nb.startswith(number) or number.startswith(nb) for nb in numbers)
+
     def validate_consistency(self) -> bool:
-        numbers = self.phonebook.values()
-        for num in numbers:
-            if any(nb.startswith(num) for nb in numbers if nb != num):
+        numbers = list(self.phonebook.values())
+
+        for i, num in enumerate(numbers):
+            if i == 0:
+                continue
+            if not self.validate_sub_consistency(num, numbers[:i]):
                 return False
+
         return True
+
+    def get_inconsistent_number(self) -> Tuple:
+        numbers = list(self.phonebook.values())
+
+        for i, num in enumerate(numbers):
+            if i == 0:
+                continue
+            if not self.validate_sub_consistency(num, numbers[:i]):
+                name = list(self.phonebook.keys())[i]
+                return name, num
+
+        return None
