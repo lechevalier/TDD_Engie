@@ -1,29 +1,55 @@
-LIST_SCORES = ["Love", "Fifteen", "Thirty", "Forty"]
+from dataclasses import dataclass
+
+
+@dataclass
+class Player(object):
+    name: str
+    points: int = 0
+
+    def __lt__(self, other):
+        return self.points < other.points
+
+    def won_point(self) -> None:
+        self.points += 1
 
 
 class TennisGame(object):
+    LIST_SCORES = ["Love", "Fifteen", "Thirty", "Forty"]
+
     def __init__(self):
-        self.scores = {
-            "player1": 0,
-            "player2": 0,
-        }
+        self.player1 = Player("player1")
+        self.player2 = Player("player2")
+
+    def get_player(self, name: str) -> Player:
+        return self.player1 if self.player1.name == name else self.player2
+
+    def get_regular_score(self) -> str:
+        score1 = self.LIST_SCORES[self.player1.points]
+        score2 = self.LIST_SCORES[self.player2.points]
+        return f"{score1} - {score2}"
+
+    def all_opponent_cases(self):
+        return [(self.player1, self.player2), (self.player2, self.player1)]
 
     def get_score(self):
-        diff = abs(int.__sub__(*self.scores.values()))
-        advantage = max(self.scores, key=self.scores.get)
-        if all(score >= 3 for score in self.scores.values()):
-            if diff == 0:
-                return "Deuce"
-            elif diff == 1:
-                return f"Advantage {advantage}"
-            else:
-                return f"Win for {advantage}"
-        if self.scores[advantage] == 4:
-            return f"Win for {advantage}"
-        return " - ".join(LIST_SCORES[score] for score in self.scores.values())
+        for (winner, loser) in self.all_opponent_cases():
+
+            diff = winner.points - loser.points
+
+            if winner.points >= 3 and loser.points >= 3:
+                if diff == 0:
+                    return "Deuce"
+                elif diff == 1:
+                    return f"Advantage {winner.name}"
+                else:
+                    return f"Win for {winner.name}"
+            if winner.points == 4:
+                return f"Win for {winner.name}"
+
+        return self.get_regular_score()
 
     def won_point(self, player_name):
-        self.scores[player_name] += 1
+        self.get_player(player_name).won_point()
 
 
 class TestTennisGame:
