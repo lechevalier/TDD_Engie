@@ -1,6 +1,4 @@
-import pytest
-
-from PhoneNumber.phone_number import PhoneNumber
+from PhoneNumber.phone_number import PhoneNumberTrie as PhoneNumber
 
 
 class TestPhoneNumber:
@@ -30,7 +28,7 @@ class TestPhoneNumber:
     def test_dial_91125426_should_call_emergency(self):
         assert self.inconsistent_phone_number.get_name_from_phone_number("91125426") == "Emergency"
 
-    def test_parsing_phone_book_file_returns_a_dictionary(self):
+    def test_phone_book_egality(self):
         filename = "phone_data_mock.txt"
         phone_mock = PhoneNumber({
             "Bob": "91125426",
@@ -48,6 +46,7 @@ class TestPhoneNumber:
         assert self.inconsistent_phone_number.get_inconsistent_number() == ("Emergency", "911")
 
     def test_validate_phone_book_consistency_returns_true_when_numbers_are_consistent(self):
+        print(self.consistent_phone_number.validate_consistency())
         assert self.consistent_phone_number.validate_consistency()
 
     def test_validate_phone_book_10000_consistency_returns_true_when_numbers_are_consistent(self):
@@ -56,8 +55,9 @@ class TestPhoneNumber:
     def test_validate_phone_book_65535_consistency_returns_true_when_numbers_are_consistent(self):
         assert not PhoneNumber.from_file("phone_data_65535.txt").validate_consistency()
 
-    @pytest.mark.skip()
     def test_validate_phone_book_consistent_returns_true(self):
-        assert not PhoneNumber.from_file("phone_data_consistent.txt").validate_consistency()
+        assert PhoneNumber.from_file("phone_data_65535_consistent.txt").validate_consistency()
 
 
+class TestPhoneNumberOld(TestPhoneNumber):
+    pass
