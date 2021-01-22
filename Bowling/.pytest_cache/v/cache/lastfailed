@@ -1,0 +1,5 @@
+{
+  "bowling_test.py": true,
+  "bowling_test.py::TestBowling::test_a_frame_should_raise_error_when_exceed_10": true,
+  "bowling_test.py::TestBowling::test_a_frame_should_raise_error_when_exceeds_10": true
+}
