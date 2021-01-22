@@ -1,3 +1,5 @@
+import pytest
+
 from PhoneNumber.phone_number import PhoneNumber
 
 
@@ -53,5 +55,9 @@ class TestPhoneNumber:
 
     def test_validate_phone_book_65535_consistency_returns_true_when_numbers_are_consistent(self):
         assert not PhoneNumber.from_file("phone_data_65535.txt").validate_consistency()
+
+    @pytest.mark.skip()
+    def test_validate_phone_book_consistent_returns_true(self):
+        assert not PhoneNumber.from_file("phone_data_consistent.txt").validate_consistency()
 
 

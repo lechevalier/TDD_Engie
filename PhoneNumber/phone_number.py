@@ -29,7 +29,7 @@ class PhoneNumber:
     def validate_sub_consistency(number: str, numbers: list) -> bool:
         return not any(nb.startswith(number) or number.startswith(nb) for nb in numbers)
 
-    def validate_consistency(self) -> bool:
+    def validate_consistency_old(self) -> bool:
         numbers = list(self.phonebook.values())
 
         for i, num in enumerate(numbers):
@@ -40,7 +40,7 @@ class PhoneNumber:
 
         return True
 
-    def get_inconsistent_number(self) -> Tuple:
+    def get_inconsistent_number_old(self) -> Tuple:
         numbers = list(self.phonebook.values())
 
         for i, num in enumerate(numbers):
@@ -50,4 +50,11 @@ class PhoneNumber:
                 name = list(self.phonebook.keys())[i]
                 return name, num
 
-        return None
+    def get_inconsistent_number(self) -> Tuple:
+        numbers = sorted((number, name) for name, number in self.phonebook.items())
+        for i in range(len(numbers) - 1):
+            if numbers[i+1][0].startswith(numbers[i][0]):
+                return numbers[i][::-1]
+
+    def validate_consistency(self) -> bool:
+        return not self.get_inconsistent_number()
