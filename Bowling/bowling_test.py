@@ -27,3 +27,9 @@ class TestBowling:
     def test_roll_should_raise_error_when_a_frame_exceeds_10(self):
         with pytest.raises(ValueError):
             self.rolls([2, 9])
+
+    def test_roll_three_times_when_spare_is_done_on_tenth_frame(self):
+        assert self.rolls([0] * 18 + [1, 9, 0])
+
+    def test_roll_three_times_when_strike_is_done_on_tenth_frame(self):
+        assert self.rolls([0] * 18 + [10, 0, 0])
