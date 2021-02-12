@@ -2,6 +2,7 @@ from Bowling.bowling import Game
 from typing import List
 import pytest
 
+
 class TestBowling:
 
     def rolls(self, pins: List[int]):
@@ -33,3 +34,21 @@ class TestBowling:
 
     def test_roll_three_times_when_strike_is_done_on_tenth_frame(self):
         assert self.rolls([0] * 18 + [10, 0, 0])
+
+    def test_roll_three_times_when_strike_is_done_on_tenth_frame_2(self):
+        assert self.rolls([0] * 18 + [10, 10, 0])
+
+    def test_spare_doubles_next_throw_score(self):
+        assert self.rolls([5, 5, 8] + [0] * 17).score() == 5 + 5 + 8 * 2
+
+    def test_strike_doubles_next_two_throws_score(self):
+        assert self.rolls([10, 8, 2] + [0] * 16).score() == 10 + 8 * 2 + 2 * 2
+
+    def test_double_strike(self):
+        assert self.rolls([10, 10, 8, 2] + [0] * 14).score() == (10 + 10 + 8) + (10 + 8 + 2) + 8 + 2
+
+    def test_double_strike_2(self):
+        assert self.rolls([10, 10, 8, 1, 4, 4] + [0] * 12).score() == (10 + 10 + 8) + (10 + 8 + 1) + 8 + 1 + 4 + 4
+
+    def test_max_score(self):
+        assert self.rolls([10] * 10 + [10] * 2).score() == 300
