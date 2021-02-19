@@ -1,0 +1,12 @@
+[
+  "foobarqix_test.py::FooBarQixTest::test_should_return_bar_when_number_is_divisible_by_five_and_contains_five",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_foo_when_number_contains_five_and_is_not_divisible_by_five",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_foo_when_number_contains_three_and_is_not_divisible_by_three",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_foo_when_number_is_divisible_by_three",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_foobar_when_number_is_divisible_by_three_and_five_and_contains_five",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_foofoofoo_when_number_contains_three_twice_and_is_divisible_by_three",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_number_representation_when_number_is_regular",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_qix_when_number_is_divisible_by_seven_and_contains_7",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_qix_when_number_is_divisible_by_seven_and_doesnt_contain_7",
+  "foobarqix_test.py::FooBarQixTest::test_should_return_qix_when_number_is_not_divisible_by_seven_and_contains_7"
+]
