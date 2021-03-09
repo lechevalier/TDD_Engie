@@ -1,6 +1,7 @@
-import math
-
 import pytest
+
+from itertools import cycle
+from math import sqrt
 
 
 class PrimeFactors:
@@ -13,22 +14,20 @@ class PrimeFactors:
                 number //= divisor
 
         primes = []
-        _test_divisor(2)
-        _test_divisor(3)
-        # 5, 7, 11, 13, 17, 19, 23, 25, 29
+        pre_test = {
+            2: (2,),  # Scan ratio: 1/2 = 0.5
+            3: (4, 2),  # Scan ratio: 1/3 = 0.333
+            5: (6, 4, 2, 4, 2, 4, 6, 2),  # Scan ratio: 4 / 15 = 0.2666
+        }
 
-        i = 5
-        # delta = 2
+        i, gaps = 1, (1,)
+        for prime, gaps in pre_test.items():
+            _test_divisor(prime)
 
-        steps = (2, 4)
-        j = 0
-        while i <= math.floor(math.sqrt(number)):
+        deltas = cycle(gaps)
+        while i <= sqrt(number):
+            i += next(deltas)
             _test_divisor(i)
-            i += steps[j]
-            # j = not j
-
-            # i += delta
-            # delta = 6 - delta
 
         if number > 1:
             primes.append(number)
@@ -67,10 +66,10 @@ class TestPrimeFactors:
     def test_generate_prime_factors_of_false_mersenne_prime(self):
         assert PrimeFactors.generate(2 ** 42 - 1) == [3, 3, 7, 7, 43, 127, 337, 5419]
 
-    def test_generate_prime_factors_of_big_false_mersenne_prime(self):
+    def test_generate_prime_factors_of_false_mersenne_prime_with_big_factors(self):
         assert PrimeFactors.generate(2 ** 59 - 1) == [179951, 3203431780337]
 
     @pytest.mark.skip
-    def test_generate_prime_factors_of_big_mersenne_prime(self):
+    def test_generate_prime_factors_of_false_big_mersenne_prime(self):
         assert PrimeFactors.generate(2 ** 62 - 1) == [3, 715827883, 2147483647]
 
