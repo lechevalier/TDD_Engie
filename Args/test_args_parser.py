@@ -7,16 +7,24 @@ class ArgParser(object):
         self.integer_args = integer_args or []
 
     def load(self, input: str) -> dict:
-        args = {arg: False for arg in self.boolean_args}
-        # ""-"l" -"d 10" -"p test"
+        args = {}
+        for flag in self.boolean_args:
+            args[flag] = False
+        for flag in self.integer_args:
+            args[flag] = 0
+
+        # ""-"l" -"p 10" -"d test"
         flags = [c.rstrip() for c in input.split("-")][1:]
 
         for flag in flags:
             f, *v = flag.split()
-            if flag in self.boolean_args:
+            if f in self.boolean_args:
                 args[f] = True
             elif f in self.integer_args:
-                args[f] = v and int(v[0]) or 0
+                v = "".join(v)
+                if v and not v.isdigit():
+                    raise ValueError()
+                args[f] = int(v)
             else:
                 raise KeyError(f"Unknown flag: {f}")
 
@@ -47,4 +55,12 @@ class TestArgsParser:
         assert ArgParser(integer_args=["p"]).load("-p 0") == {"p": 0}
 
     def test_arg_parser_should_read_multiple_flags(self):
-        assert ArgParser(["l"], ["p"]).load("-l -p 1") == {"l": True, "p": 1}
+        assert ArgParser(["l"], ["p", "q"]).load("-l -p 10") == {"l": True, "p": 10, "q": 0}
+
+    def test_arg_parser_should_raise_value_error_for_illegal_value_with_integer_flag(self):
+        with pytest.raises(ValueError):
+            ArgParser(integer_args=["p"]).load("-p x")
+
+    def test_arg_parser_should_raise_value_error_for_empty_value_with_integer_flag(self):
+        with pytest.raises(ValueError):
+            ArgParser(integer_args=["q"]).load("-q")
