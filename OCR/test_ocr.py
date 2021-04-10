@@ -24,6 +24,9 @@ class OCR:
         return [''.join(self.reprs[digit] for digit in self.split_entry(entry))
                 for entry in self.split_text(path.read_text())]
 
+    def checksum(self, entry: str):
+        return sum(idx * int(digit) for idx, digit in enumerate(reversed(entry), 1)) % 11 == 0
+
 
 class TestOCR:
     def setup_class(cls):
@@ -47,4 +50,32 @@ class TestOCR:
             '888888888',
             '999999999',
             '123456789',
+        ]
+
+    def test_use_case_2(self):
+        tests = [
+            '000000000',
+            '111111111',
+            '222222222',
+            '333333333',
+            '444444444',
+            '555555555',
+            '666666666',
+            '777777777',
+            '888888888',
+            '999999999',
+            '123456789',
+        ]
+        assert list(map(self.digit_ocr.checksum, tests)) == [
+            True,
+            False,
+            False,
+            False,
+            False,
+            False,
+            False,
+            False,
+            False,
+            False,
+            True,
         ]
