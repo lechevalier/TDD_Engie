@@ -21,11 +21,19 @@ class OCR:
         return zip(*[iter(lines)] * self.height)
 
     def read_file(self, path: Path) -> list[str]:
-        return [''.join(self.reprs[digit] for digit in self.split_entry(entry))
+        return [''.join(self.reprs.get(digit, '?') for digit in self.split_entry(entry))
                 for entry in self.split_text(path.read_text())]
 
-    def checksum(self, entry: str):
-        return sum(idx * int(digit) for idx, digit in enumerate(reversed(entry), 1)) % 11 == 0
+    def checksum(self, account: str):
+        return sum(idx * int(digit) for idx, digit in enumerate(reversed(account), 1)) % 11 == 0
+
+    def status(self, account: str) -> str:
+        return 'ILL' if '?' in account else '' if self.checksum(account) else 'ERR'
+
+    def validate_file(self, source: Path, target: Path):
+        lines = [f'{account} {self.status(account)}'.rstrip() for account in self.read_file(source)]
+        target.write_text('\n'.join(lines))
+        return target
 
 
 class TestOCR:
@@ -79,3 +87,12 @@ class TestOCR:
             False,
             True,
         ]
+
+    def test_use_case_3(self, tmp_path):
+        assert self.digit_ocr.validate_file(Path('use_case_3.txt'),
+                                            tmp_path / 'results.txt').read_text().splitlines() == [
+                   '000000051',
+                   '490067715 ERR',
+                   '49006771? ILL',
+                   '1234?678? ILL',
+               ]
