@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List, Dict
 
 ASCII_DIGITS = '''\
  _     _  _     _  _  _  _  _ 
@@ -7,7 +8,17 @@ ASCII_DIGITS = '''\
 '''
 
 
-def generate_digits(path: Path):
+def generate_ascii_patterns() -> List[Dict[str, List[str]]]:
+    patterns = []
+    for line in ASCII_DIGITS.splitlines():
+        table = {}
+        for digit in range(10):
+            table.setdefault(line[digit*3: (digit+1)*3], []).append(str(digit))
+        patterns.append(table)
+    return patterns
+
+
+def generate_digit_files(path: Path):
     columns = iter(zip(*ASCII_DIGITS.splitlines()))
     for digit, ascii_lines in enumerate(zip(* [columns] * 3)):
         digit_path = path / f'{digit}.txt'
@@ -18,4 +29,4 @@ def generate_digits(path: Path):
 if __name__ == '__main__':
     directory = Path() / 'digits'
     directory.mkdir(parents=True, exist_ok=True)
-    generate_digits(directory)
+    generate_digit_files(directory)

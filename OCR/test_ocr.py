@@ -1,24 +1,8 @@
 from typing import List
 
-ASCII_PATTERNS_ROWS = [
-    {
-        "   ": ["1", "4"],
-        " _ ": ["0", "2", "3", "5", "6", "7", "8", "9"],
-    },
-    {
-        "  |": ["1", "7"],
-        "| |": ["0"],
-        "|_ ": ["5", "6"],
-        "|_|": ["4", "8", "9"],
-        " _|": ["2", "3"],
-    },
-    {
-        "  |": ["1", "4", "7"],
-        " _|": ["3", "5", "9"],
-        "|_|": ["0", "6", "8"],
-        "|_ ": ["2"],
-    },
-]
+from OCR.digit_helper import generate_ascii_patterns
+
+ASCII_PATTERNS_ROWS = generate_ascii_patterns()
 
 
 class OCR:
