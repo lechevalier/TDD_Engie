@@ -22,7 +22,7 @@ def generate_digit_files(path: Path):
     columns = iter(zip(*ASCII_DIGITS.splitlines()))
     for digit, ascii_lines in enumerate(zip(* [columns] * 3)):
         digit_path = path / f'{digit}.txt'
-        ascii_repr = '\n'.join(map(''.join, zip(*ascii_lines)))
+        ascii_repr = '\n'.join(map(''.join, zip(*ascii_lines))) + '\n'
         digit_path.write_text(ascii_repr)
 
 
